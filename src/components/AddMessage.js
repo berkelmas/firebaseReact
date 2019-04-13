@@ -1,38 +1,39 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+
+import {sendMessage, updateMessageToSend} from '../actions/MessageAction';
 
 class AddMessage extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            message : '',
-            username: 'can elbirlik'
-        }
-    }
 
     updateState(e) {
-        this.setState({
-            ...this.state,
-            message : e.target.value
-        })
+        this.props.dispatch(updateMessageToSend(e.target.value));
+        
     }
 
     sendMessage() {
-        const refer = this.props.db.database().ref('messages');
-        refer.push(this.state)
-        this.setState({
-            message: ''
-        })
+        this.props.dispatch(sendMessage());
+        document.getElementById('deger').value = ''; 
     }
 
     render(){
         return(
             <div>
-                <input onChange={this.updateState.bind(this)} placeholder="mesajini gir knk"/>
+                <input  id="deger" onChange={this.updateState.bind(this)} placeholder="mesajini gir knk"/>
                 <button onClick={this.sendMessage.bind(this)}>Gonder knk</button>
             </div>
         )
     }
 }
 
-export default AddMessage;
+const mapStateToProps = state => ({
+    message : state.message
+})
+
+export default connect(mapStateToProps)(AddMessage);
+
+
+/*         const refer = this.props.db.database().ref('messages');
+        refer.push(this.state)
+        this.setState({
+            message: ''
+        }) */

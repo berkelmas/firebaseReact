@@ -4,19 +4,20 @@ const initialState = {
 
         }
     ],
-    loading: false
+    loading: false,
+    msgToSend: ''
 };
 
 function MessageReducer(state=initialState, {type, payload}) {
     switch (type) {
-        case "send_message":
-            return {...state, arr: [...state.arr, {message: payload.message, username: 'berk elmas'}]};
         case "show_messages":
-            return {...state, arr: [...state.arr, {message: payload.message, username: payload.username, uid: payload.uid}], loading: false};
+            return {...state, arr: payload.list, loading: false};
         case "show_messages_pending":
-            return {...state, arr: [...state.arr], loading: true}
+            return {...state, arr: [...state.arr], loading: true};
         case "show_messages_failed":
-            return {...state, arr: [...state.arr], loading: false}
+            return {...state, arr: [...state.arr], loading: false};
+        case "update_message_to_send":
+            return {...state, arr: [...state.arr], msgToSend: payload.message}
         default:
             return state
     }

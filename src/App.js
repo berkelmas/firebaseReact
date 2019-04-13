@@ -25,8 +25,8 @@ render() {
   return (
     <div>
       <h1>Mesajlar</h1>
-      <Message />
-      <AddMessage db={firebase} />
+      <Message db={firebase} />
+      <AddMessage />
     </div>
   );
 }

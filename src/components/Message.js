@@ -10,17 +10,25 @@ class Message extends Component {
     }
 
     render () {
-        return (
-            <div>
-            {this.props.messages.arr.map((res, index) => 
-            <div key={index}>
-                <h3>{res.username}</h3>
-                <p>{res.message }</p>
-            </div>
-            )}
-            <p>{this.props.messages.loading}</p>
-            </div>
-        )
+        if (!this.props.messages.loading) {
+            return (
+                <div>
+                {this.props.messages.arr.map((res, index) => 
+                <div key={index}>
+                    <h3>{res.username}</h3>
+                    <p>{res.message }</p>
+                </div>
+                )}
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <p>Daha yuklenıyor knk</p>
+                </div>
+            )
+        }
+
     }
 }
 

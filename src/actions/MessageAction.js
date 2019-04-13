@@ -1,12 +1,10 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 
 export function showMessages(data) {
     return {
         type: 'show_messages',
         payload: {
-            message: data.message,
-            username: data.username,
-            uid: data.uid
+            list : data
         }
     }
 }
@@ -17,11 +15,6 @@ export function getMessagesPending() {
     }
 }
 
-export function getMessagesSuccess() {
-    return {
-        type: 'show_messages_success'
-    }
-}
 
 
 export function getMessages() {
@@ -30,12 +23,31 @@ export function getMessages() {
         const ref = firebase.database().ref('messages');
         ref.on("value", (snapshot) => { 
             const values = snapshot.val();
+            let liste = []
             Object.keys(values).map(res => {
                 values[res].uid= res;
-                dispatch(showMessages(values[res]))
+                liste.push(values[res]);
+                
                 return values[res];
             })
-        dispatch(getMessagesSuccess());
+            dispatch(showMessages(liste))
         })
+    }
+}
+
+
+export function sendMessage() {
+    return (dispatch, getState) => {
+        const refer = firebase.database().ref('messages');
+        refer.push({message: getState().message.msgToSend, username: 'Berk Elmas'});
+    }
+}
+
+export function updateMessageToSend(data) {
+    return {
+        type: 'update_message_to_send',
+        payload: {
+            message: data
+        }
     }
 }
