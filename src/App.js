@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 
 import firebase from 'firebase';
 import Message from './components/Message';
 import AddMessage from './components/AddMessage';
 
-import {connect} from 'react-redux';
 
 class App extends Component {
 
@@ -21,17 +21,15 @@ class App extends Component {
   firebase.initializeApp(config);
 }
 
-  render() {
-    this.props.message.arr.map(res => console.log(res))
-    return (
-      <div>
-        <h1>Mesajlar</h1>
-        <Message db={firebase} />
-        <AddMessage db={firebase} />
-        {this.props.message.arr.map(res => <p>{res.message }</p>)}
-      </div>
-    );
-  }
+render() {
+  return (
+    <div>
+      <h1>Mesajlar</h1>
+      <Message />
+      <AddMessage db={firebase} />
+    </div>
+  );
+}
 }
 
 const mapStateToProps = state => ({
