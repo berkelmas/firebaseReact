@@ -5,6 +5,9 @@ import firebase from 'firebase';
 import Message from './components/Message';
 import AddMessage from './components/AddMessage';
 
+import Login from './components/Login';
+
+import {checkLogin} from './actions/LoginActions';
 
 class App extends Component {
 
@@ -21,19 +24,33 @@ class App extends Component {
   firebase.initializeApp(config);
 }
 
-render() {
+componentDidMount() {
+  {localStorage.getItem('token') ? this.props.dispatch(checkLogin()) : console.log()}
+}
+
+needLogin() {
   return (
     <div>
       <h1>Mesajlar</h1>
-      <Message db={firebase} />
+      <Message />
       <AddMessage />
+      {this.props.user.email}
     </div>
-  );
+  )
+}
+
+render() {
+  return (
+  <div>
+    {this.props.user.loggedIn ? this.needLogin() : <Login/>}
+  </div>
+  )
 }
 }
 
 const mapStateToProps = state => ({
-  message: state.message
+  message: state.message,
+  user: state.user
 })
 
 export default connect(mapStateToProps)(App);
